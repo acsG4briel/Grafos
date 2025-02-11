@@ -12,14 +12,14 @@ public class Main {
     //Criar um programa que receba informações de adjacências e crie em memória um grafo direcionado
     //obtendo as seguintes informações sobre um grafo G dado: grau de saida, grau de entrada,
     //conjunto de sucessore e conjunto de predecessores.
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Scanner s = new Scanner(System.in);
         List<String> linhas = new ArrayList<String>();
 
         System.out.println("INSIRA O CAMINHO DO ARQUIVO:");
         //String path = s.nextLine();
         //String path = "Implementacoes\\Implementacao1\\graph-test-100-1.txt";
-        String path = "Implementacoes\\Implementacao1\\testeMenorGrafo.txt";
+        String path = "Implementacoes\\Implementacao1\\TestCases\\testeMenorGrafo.txt";
 
         try (BufferedReader leitor = new BufferedReader(new FileReader(path))) 
         {
@@ -44,10 +44,21 @@ public class Main {
 
         //MATRIZ DE INCIDÊNCIA
             //TODO: Implementar contadores de tempo
-            //TODO: Implementar funções de descobrir grau de saida, grau de entrada, conjunto de sucessores e conjunto de predecessores.
-        Grafo g1 = new Grafo(numVertices, numArestas, linhas);
+        GrafoDirecionado g1 = new GrafoDirecionado(numVertices, numArestas, linhas);
+        var tempoMontagem = g1.GerarRepresentacaoGrafo(TipoRepresentacao.MatrizDeIncidencia);
 
-        g1.GerarGrafo(TipoRepresentacao.MatrizDeIncidencia);
+        System.out.println("INSIRA UM VÉRTICE:");
+        int verticeRespostas = s.nextInt();
+
+        var tempoRespostas = g1.ObterDadosPorGrafo(verticeRespostas, TipoRepresentacao.MatrizDeIncidencia);
+
+        System.out.println("Grau de Entrada: " + g1.GrauEntrada);
+        System.out.println("Grau de Saída: " + g1.GrauSaida);
+        System.out.println("Lista de Sucessores: " + g1.Sucessores);
+        System.out.println("Lista de Predecessores: " + g1.Predecessores);
+
+        System.out.println("Tempo Montagem Representação: " + tempoMontagem + "ms");
+        System.out.println("Tempo Respostas: " + tempoRespostas + "ms");
 
         //MATRIZ DE ADJACÊNCIA
 
