@@ -30,9 +30,13 @@ public class GrafoDirecionado {
     {
         switch (representacao) {
             case TipoRepresentacao.MatrizDeIncidencia:
-                var tempo = PreencherMatrizDeIncidencia();
-                ExibirMatrizDeIncidencia();
-                return tempo;
+                var tempoMatrizIncidencia = PreencherMatrizDeIncidencia();
+                //ExibirMatrizDeIncidencia();
+                return tempoMatrizIncidencia;
+            case TipoRepresentacao.MatrizDeAdjacencia:
+                var tempoMatrizAdjacencia = PreencherMatrizDeAdjacencia();
+                //ExibirMatrizDeAdjacencia();
+                return tempoMatrizAdjacencia;
             default:
                 return 0;
         }
@@ -43,7 +47,8 @@ public class GrafoDirecionado {
         switch (representacao) {
             case TipoRepresentacao.MatrizDeIncidencia:
                 return ObterDadosMatrizDeIncidencia(verticeRespostas);
-
+            case TipoRepresentacao.MatrizDeAdjacencia:
+                return ObterDadosMatrizDeAdjacencia(verticeRespostas);
             default:
                 return 0;
         }
@@ -159,6 +164,104 @@ public class GrafoDirecionado {
                 System.out.print(this.MatrizDeIncidencia[i][j] + ESPACO_ENTRE_VALORES);
             }
             System.out.println();
+        }
+    }
+
+    private long PreencherMatrizDeAdjacencia()
+    {
+        long inicio = System.currentTimeMillis();
+        
+        this.MatrizDeAdjacencia = new int[this.Vertices][this.Vertices];
+
+        for (String relacao : Relacoes) 
+        {
+            String[] partes = relacao.trim().split("\\s+");
+
+            int verticeOrigem = Integer.parseInt(partes[0]);
+            int verticeDestino = Integer.parseInt(partes[1]);
+
+            for(int i = 0; i < this.Vertices; i++)
+            {
+                for(int j = 0; j < this.Vertices; j++)
+                {
+                    if(i == verticeOrigem - 1 && j == verticeDestino - 1)
+                    {
+                        this.MatrizDeAdjacencia[i][j] = 1;
+                    }
+                }
+            }
+        }
+
+        long fim = System.currentTimeMillis();
+
+        return fim - inicio;
+    }
+
+    private long ObterDadosMatrizDeAdjacencia(int verticeRespostas) throws Exception
+    {
+        if(verticeRespostas > this.Vertices)
+        {
+            throw new IOException("Vértice não existe no grafo atual.");
+        }
+
+        long inicio = System.currentTimeMillis();
+
+        int grauDeEntrada = 0;
+        int grauDeSaida = 0;
+        List<Integer> sucessores = new ArrayList<Integer>();
+        List<Integer> predecessores = new ArrayList<Integer>();
+
+        for(int i = 0; i < this.Vertices; i++)
+        {
+            if(i == verticeRespostas - 1)
+            {
+                for(int j = 0; j < this.Vertices; j++)
+                {
+                    if(this.MatrizDeAdjacencia[i][j] == 1)
+                    {
+                        grauDeSaida++;
+                        sucessores.add(j + 1);
+                    }
+                }
+
+                for(int j = 0; j < this.Vertices; j++)
+                {
+                    if(this.MatrizDeAdjacencia[j][i] == 1)
+                    {
+                        grauDeEntrada++;
+                        predecessores.add(j + 1);
+                    }
+                }
+            }
+        }
+
+        long fim = System.currentTimeMillis();
+
+        this.GrauEntrada = grauDeEntrada;
+        this.GrauSaida = grauDeSaida;
+        this.Sucessores = sucessores;
+        this.Predecessores = predecessores;
+
+        return fim - inicio;
+    }
+
+    private void ExibirMatrizDeAdjacencia()
+    {
+        System.out.print("   ");
+        for (int i = 1; i <= this.Vertices; i++) 
+        {
+            System.out.print(i + "  ");
+        }
+        System.out.println();
+
+        for (int i = 0; i < this.Vertices; i++) 
+        {
+            System.out.print((i + 1) + "  ");
+            for (int j = 0; j < Vertices; j++) 
+            {
+                System.out.print(this.MatrizDeAdjacencia[i][j] + "  "); 
+            }
+            System.out.println(); 
         }
     }
 }
