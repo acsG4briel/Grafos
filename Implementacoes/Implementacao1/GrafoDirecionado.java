@@ -11,7 +11,8 @@ public class GrafoDirecionado {
 
     public int[][] MatrizDeIncidencia;
     public int[][] MatrizDeAdjacencia;
-    public List<List<Integer>> ListaDeAdjacencia;
+    public List<List<Integer>> ListaDeAdjacenciaSucessores = new ArrayList<List<Integer>>();
+    public List<List<Integer>> ListaDeAdjacenciaPredecessores = new ArrayList<List<Integer>>();
     //TODO: Adicionar vetor de adjacencias
 
     public int GrauSaida;
@@ -37,6 +38,10 @@ public class GrafoDirecionado {
                 var tempoMatrizAdjacencia = PreencherMatrizDeAdjacencia();
                 //ExibirMatrizDeAdjacencia();
                 return tempoMatrizAdjacencia;
+            case TipoRepresentacao.ListaDeAdjacencia:
+                var tempoListaAdjacencia = PreencherListaDeAdjacencia();
+                //ExibirListaDeAdjacencia();
+                return tempoListaAdjacencia;
             default:
                 return 0;
         }
@@ -49,6 +54,8 @@ public class GrafoDirecionado {
                 return ObterDadosMatrizDeIncidencia(verticeRespostas);
             case TipoRepresentacao.MatrizDeAdjacencia:
                 return ObterDadosMatrizDeAdjacencia(verticeRespostas);
+            case TipoRepresentacao.ListaDeAdjacencia:
+                return ObterDadosListaDeAdjacencia(verticeRespostas);
             default:
                 return 0;
         }
@@ -262,6 +269,73 @@ public class GrafoDirecionado {
                 System.out.print(this.MatrizDeAdjacencia[i][j] + "  "); 
             }
             System.out.println(); 
+        }
+    }
+
+    private long PreencherListaDeAdjacencia()
+    {
+        long inicio = System.currentTimeMillis();
+
+        for(int i = 0; i < this.Vertices; i++)
+        {
+            this.ListaDeAdjacenciaSucessores.add(new ArrayList<Integer>());
+            this.ListaDeAdjacenciaPredecessores.add(new ArrayList<Integer>());
+        }
+
+        for (String relacao : Relacoes) 
+        {
+            String[] partes = relacao.trim().split("\\s+");
+
+            int verticeOrigem = Integer.parseInt(partes[0]);
+            int verticeDestino = Integer.parseInt(partes[1]);
+
+            this.ListaDeAdjacenciaSucessores.get(verticeOrigem - 1).add(verticeDestino);
+            this.ListaDeAdjacenciaPredecessores.get(verticeDestino - 1).add(verticeOrigem);
+        }
+
+        long fim = System.currentTimeMillis();
+
+        return fim - inicio;
+    } 
+
+    private long ObterDadosListaDeAdjacencia(int verticeRespostas) throws Exception
+    {
+        if(verticeRespostas > this.Vertices)
+        {
+            throw new IOException("Vértice não existe no grafo atual.");
+        }
+
+        long inicio = System.currentTimeMillis();
+
+        int grauDeEntrada = this.ListaDeAdjacenciaPredecessores.get(verticeRespostas - 1).size();
+        int grauDeSaida = this.ListaDeAdjacenciaSucessores.get(verticeRespostas - 1).size();
+
+        long fim = System.currentTimeMillis();
+
+        this.GrauEntrada = grauDeEntrada;
+        this.GrauSaida = grauDeSaida;
+        this.Sucessores = this.ListaDeAdjacenciaSucessores.get(verticeRespostas - 1);
+        this.Predecessores = this.ListaDeAdjacenciaPredecessores.get(verticeRespostas - 1);
+
+        return fim - inicio;
+    }
+
+    public void ExibirListaDeAdjacencia() 
+    {
+        System.out.println("LISTA DE SUCESSORES");
+        for (int i = 0; i < this.Vertices; i++) 
+        {
+            List<Integer> lista = this.ListaDeAdjacenciaSucessores.get(i);
+        
+            System.out.println((i + 1) + " -> " + lista);
+        }
+
+        System.out.println("LISTA DE PREDECESSORES");
+        for (int i = 0; i < this.Vertices; i++) 
+        {
+            List<Integer> lista = this.ListaDeAdjacenciaPredecessores.get(i);
+        
+            System.out.println((i + 1) + " -> " + lista);
         }
     }
 }

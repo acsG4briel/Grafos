@@ -18,8 +18,9 @@ public class Main {
 
         System.out.println("INSIRA O CAMINHO DO ARQUIVO:");
         //String path = s.nextLine();
-        String path = "Implementacoes\\Implementacao1\\TestCases\\graph-test-100-1.txt";
+        //String path = "Implementacoes\\Implementacao1\\TestCases\\graph-test-100-1.txt";
         //String path = "Implementacoes\\Implementacao1\\TestCases\\testeMenorGrafo.txt";
+        String path = "Implementacoes\\Implementacao1\\TestCases\\graph-test-50000-1.txt";
 
         try (BufferedReader leitor = new BufferedReader(new FileReader(path))) 
         {
@@ -43,42 +44,54 @@ public class Main {
         linhas.removeLast();
 
         //MATRIZ DE INCIDÊNCIA
-        GrafoDirecionado g1 = new GrafoDirecionado(numVertices, numArestas, linhas);
-        var tempoMontagemMatrizIncidencia = g1.GerarRepresentacaoGrafo(TipoRepresentacao.MatrizDeIncidencia);
+        // GrafoDirecionado g1 = new GrafoDirecionado(numVertices, numArestas, linhas);
+        // var tempoMontagemMatrizIncidencia = g1.GerarRepresentacaoGrafo(TipoRepresentacao.MatrizDeIncidencia);
 
-        System.out.println("INSIRA UM VÉRTICE:");
-        int verticeRespostasMatrizIncidencia = s.nextInt();
+        // System.out.println("INSIRA UM VÉRTICE:");
+        // int verticeRespostasMatrizIncidencia = s.nextInt();
 
-        var tempoRespostasMatrizIncidencia = g1.ObterDadosPorGrafo(verticeRespostasMatrizIncidencia, TipoRepresentacao.MatrizDeIncidencia);
+        // var tempoRespostasMatrizIncidencia = g1.ObterDadosPorGrafo(verticeRespostasMatrizIncidencia, TipoRepresentacao.MatrizDeIncidencia);
 
-        System.out.println("Grau de Entrada: " + g1.GrauEntrada);
-        System.out.println("Grau de Saída: " + g1.GrauSaida);
-        System.out.println("Lista de Sucessores: " + g1.Sucessores);
-        System.out.println("Lista de Predecessores: " + g1.Predecessores);
+        // System.out.println("Grau de Entrada: " + g1.GrauEntrada);
+        // System.out.println("Grau de Saída: " + g1.GrauSaida);
+        // System.out.println("Lista de Sucessores: " + g1.Sucessores);
+        // System.out.println("Lista de Predecessores: " + g1.Predecessores);
 
-        System.out.println("Tempo Montagem Representação: " + tempoMontagemMatrizIncidencia + "ms");
-        System.out.println("Tempo Respostas: " + tempoRespostasMatrizIncidencia + "ms");
+        // System.out.println("Tempo Montagem Representação: " + tempoMontagemMatrizIncidencia + "ms");
+        // System.out.println("Tempo Respostas: " + tempoRespostasMatrizIncidencia + "ms");
 
         //MATRIZ DE ADJACÊNCIA
-        GrafoDirecionado g2 = new GrafoDirecionado(numVertices, numArestas, linhas);
-        var tempoMontagemMatrizAdjacencia = g2.GerarRepresentacaoGrafo(TipoRepresentacao.MatrizDeAdjacencia);
+        // GrafoDirecionado g2 = new GrafoDirecionado(numVertices, numArestas, linhas);
+        // var tempoMontagemMatrizAdjacencia = g2.GerarRepresentacaoGrafo(TipoRepresentacao.MatrizDeAdjacencia);
 
-        System.out.println("INSIRA UM VÉRTICE:");
-        int verticeRespostasMatrizAdjacencia = s.nextInt();
+        // System.out.println("INSIRA UM VÉRTICE:");
+        // int verticeRespostasMatrizAdjacencia = s.nextInt();
 
-        var tempoRespostasMatrizAdjacencia = g2.ObterDadosPorGrafo(verticeRespostasMatrizAdjacencia, TipoRepresentacao.MatrizDeAdjacencia);
+        // var tempoRespostasMatrizAdjacencia = g2.ObterDadosPorGrafo(verticeRespostasMatrizAdjacencia, TipoRepresentacao.MatrizDeAdjacencia);
 
-        System.out.println("Grau de Entrada: " + g2.GrauEntrada);
-        System.out.println("Grau de Saída: " + g2.GrauSaida);
-        System.out.println("Lista de Sucessores: " + g2.Sucessores);
-        System.out.println("Lista de Predecessores: " + g2.Predecessores);
+        // System.out.println("Grau de Entrada: " + g2.GrauEntrada);
+        // System.out.println("Grau de Saída: " + g2.GrauSaida);
+        // System.out.println("Lista de Sucessores: " + g2.Sucessores);
+        // System.out.println("Lista de Predecessores: " + g2.Predecessores);
 
-        System.out.println("Tempo Montagem Representação: " + tempoMontagemMatrizAdjacencia + "ms");
-        System.out.println("Tempo Respostas: " + tempoRespostasMatrizAdjacencia + "ms");
+        // System.out.println("Tempo Montagem Representação: " + tempoMontagemMatrizAdjacencia + "ms");
+        // System.out.println("Tempo Respostas: " + tempoRespostasMatrizAdjacencia + "ms");
 
         //LISTA DE ADJACÊNCIA
+        GrafoDirecionado g3 = new GrafoDirecionado(numVertices, numArestas, linhas);
+        var tempoMontagemListaAdjacencia = g3.GerarRepresentacaoGrafo(TipoRepresentacao.ListaDeAdjacencia);
 
+        System.out.println("INSIRA UM VÉRTICE:");
+        int verticeRespostasListaAdjacencia = s.nextInt();
 
+        var tempoRespostaListaAdjacencia = g3.ObterDadosPorGrafo(verticeRespostasListaAdjacencia, TipoRepresentacao.ListaDeAdjacencia);
+        System.out.println("Grau de Entrada: " + g3.GrauEntrada);
+        System.out.println("Grau de Saída: " + g3.GrauSaida);
+        System.out.println("Lista de Sucessores: " + g3.Sucessores);
+        System.out.println("Lista de Predecessores: " + g3.Predecessores);
+
+        System.out.println("Tempo Montagem Representação: " + tempoMontagemListaAdjacencia + "ms");
+        System.out.println("Tempo Respostas: " + tempoRespostaListaAdjacencia + "ms");
         //LISTA DE ADJACÊNCIA COM VETORES
         s.close();
     }
